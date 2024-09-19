@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PortfolioGrid from './components/PortfolioGrid';
+import SocialTab from './components/social';
 import About from './components/About';
 import MainBanner from './components/MainBanner';
 import './App.css';
@@ -15,6 +16,7 @@ function App() {
         <MainBanner />
         <PortfolioGrid />
       </main>
+      <SocialTab />
       <Footer />
     </div>
   );
