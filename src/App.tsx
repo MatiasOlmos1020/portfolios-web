@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import PortfolioGrid from './components/PortfolioGrid';
-import SocialTab from './components/social';
-import About from './components/About';
-import MainBanner from './components/MainBanner';
+import SocialTab from './components/SocialTab';
+import AppRoutes from './routes/AppRoutes';  
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <main>
-        <MainBanner />
-        <PortfolioGrid />
-      </main>
-      <SocialTab />
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <main>
+          <AppRoutes />
+        </main>
+        <SocialTab />
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
