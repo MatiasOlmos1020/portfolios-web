@@ -11,7 +11,11 @@ app.use(bodyParser.json());
 // Datos de ejemplo
 const projects = [
   { id: 1, title: "Project One", description: "My first project", link: "#" },
-  { id: 2, title: "Project Two", description: "Another project", link: "#" }
+  { id: 2, title: "Project Two", description: "Another project", link: "#" },
+  { id: 3, title: "Project Two", description: "Another project", link: "#" },
+  { id: 4, title: "Project Two", description: "Another project", link: "#" }
+
+
 ];
 
 // Rutas
