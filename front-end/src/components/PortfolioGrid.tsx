@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPortfolioItems } from '../api';
+import { fetchPortfolioItems } from '../services/portfolioService';
 import { PortfolioItem } from '../types'; // Importa la interfaz
 
 const PortfolioGrid: React.FC = () => {
