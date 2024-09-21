@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { PortfolioItem } from '../types';
-
-const API_BASE_URL = 'http://localhost:5000'; // Cambia esto según tu configuración
+import API_BASE_URL from '../config/config';
 
 // Función para obtener los items del portfolio
 export const fetchPortfolioItems = async (): Promise<PortfolioItem[]> => {
