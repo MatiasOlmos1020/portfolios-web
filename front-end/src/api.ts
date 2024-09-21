@@ -4,7 +4,7 @@ const API_BASE_URL = 'http://localhost:5000'; // Cambia esto según tu configura
 
 export const fetchPortfolioItems = async () => {
     try {
-    const response = await axios.get(`${API_BASE_URL}/api/projects`);
+    const response = await axios.get(`${API_BASE_URL}/api/portfolios`);
     return response.data;
   } catch (error) {
     console.error('Error fetching portfolio items:', error);
