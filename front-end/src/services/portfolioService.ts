@@ -12,3 +12,12 @@ export const fetchPortfolioItems = async (): Promise<PortfolioItem[]> => {
     throw error;
   }
 };
+
+export const createPortfolio = async (data: { title: string; description: string; link: string }) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/portfolios`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

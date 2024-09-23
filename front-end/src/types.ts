@@ -3,5 +3,6 @@ export interface PortfolioItem {
     title: string;
     description: string;
     // Agrega más propiedades según tu estructura de datos
-  }
+}
+  
   
