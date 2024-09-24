@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { createPortfolio } from '../services/portfolioService';
+import ImageUploader from './ImagesUploader';
 import CustomCkeditor from './Ckeditor';
 
 const CreatePortfolio = () => {
@@ -63,6 +64,11 @@ const CreatePortfolio = () => {
             required
           />
         </div>
+
+        <div>
+        <label htmlFor="link">Imagen: </label>
+          <ImageUploader />
+        </div>          
 
         <button type="submit">Añadir Portfolio</button>
       </form>
