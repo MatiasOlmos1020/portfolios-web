@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { createPortfolio } from '../services/portfolioService';
+import CustomCkeditor from './Ckeditor';
 
 const CreatePortfolio = () => {
   const [title, setTitle] = useState('');
@@ -44,11 +45,11 @@ const CreatePortfolio = () => {
 
         <div>
           <label htmlFor="description">Descripción:</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
+          <CustomCkeditor
+            onChange={(event: any, editor: any) => {
+              const data = editor.getData();
+              setDescription(data);
+            }}
           />
         </div>
 
