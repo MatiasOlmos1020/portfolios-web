@@ -4,7 +4,7 @@ import {
   createPortfolio,
   updatePortfolio,
   deletePortfolio,
-} from '../controllers/portfolioController';
+} from '../controllers/portfoliosController';
 
 const router = Router();
 

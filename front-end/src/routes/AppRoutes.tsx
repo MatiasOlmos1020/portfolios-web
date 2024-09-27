@@ -12,7 +12,6 @@ const AppRoutes: React.FC = () => {
       <Route path="/about" element={<About />} />
       <Route path="/mainbanner" element={<MainBanner />} />
       <Route path="/createPortfolio" element={<CreatePortfolio />} />
-
     </Routes>
   );
 }

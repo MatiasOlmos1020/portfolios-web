@@ -1,8 +1,14 @@
 export interface PortfolioItem {
-    id: number; // O string, según cómo estés manejando los IDs
+    id: string;
     title: string;
     description: string;
-    // Agrega más propiedades según tu estructura de datos
+    link: string;
+    imageurl: string;
+}
+
+export interface ImageItem {
+    id: string;
+    url: string;
 }
   
   

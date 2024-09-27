@@ -1,12 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import portfolioRoutes from './routes/portfolioRoute';
-import imageRoutes from './routes/imageRoute'
+import portfolioRoutes from './routes/portfolioRoutes';
+import imageRoutes from './routes/imageRoutes'
 import connectDB from './db';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(express.json());
 
 // Middleware
 app.use(cors());

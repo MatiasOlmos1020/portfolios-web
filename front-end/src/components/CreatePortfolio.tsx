@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortfolio } from '../services/portfolioService';
 import ImageUploader from './ImagesUploader';
 import CustomCkeditor from './Ckeditor';
@@ -10,17 +10,29 @@ const CreatePortfolio = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
+  const imageUploaderRef = useRef<any>(null); // Referencia a ImageUploader
+  const [imagesID, setImagesID] = useState<string>(''); // Aquí almacenaremos las URLs de las imágenes subidas
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
 
     try {
-      await createPortfolio({ title, description, link });
+      // Llamamos a la función de subida de imágenes expuesta en ImageUploader
+      if (imageUploaderRef.current) {
+        const uploadedImageURLs = await imageUploaderRef.current.handleImageUpload(); // Aquí llamas a la función de subida
+        setImagesID(uploadedImageURLs._id); // Guardamos las URLs de las imágenes subidas
+      }
+
+      // Ahora creamos el portfolio con las URLs de las imágenes incluidas
+      await createPortfolio({ title, description, link, imagesID });
+      
       setSuccess(true);
       setTitle('');
       setDescription('');
       setLink('');
+      setImagesID(''); // Limpiamos las imágenes
     } catch (error) {
       setError('Error al añadir el portfolio. Inténtalo de nuevo.');
     }
@@ -66,9 +78,10 @@ const CreatePortfolio = () => {
         </div>
 
         <div>
-        <label htmlFor="link">Imagen: </label>
-          <ImageUploader />
-        </div>          
+          <label htmlFor="images">Imagenes:</label>
+          {/* Aquí usamos ref para exponer la función de subida de imágenes */}
+          <ImageUploader ref={imageUploaderRef} />
+        </div>
 
         <button type="submit">Añadir Portfolio</button>
       </form>

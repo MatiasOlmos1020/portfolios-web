@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import { uploadImages } from '../services/imageService';
 
-const ImageUploader: React.FC = () => {
+// Añadimos forwardRef para exponer métodos
+const ImageUploader = forwardRef((props, ref) => {
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [portfolioId, setPortfolioId] = useState<string>(''); // ID del portfolio al que vincular
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -17,34 +17,21 @@ const ImageUploader: React.FC = () => {
     }
   };
 
-  const handleUpload = async () => {
-    const formData = new FormData();
-    images.forEach(image => {
-      formData.append('images', image);
-    });
-
+  const handleImageUpload = async () => {
     try {
-      // Cambia la URL a la de tu API
-      const response = await axios.post('http://localhost:5000/api/images/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      // Asumimos que el backend devuelve las URLs de las imágenes
-      const imageUrls = response.data; // Ajusta según lo que devuelva tu backend
-      console.log('URLs de imágenes guardadas:', imageUrls);
-
-      // Aquí puedes enviar el portfolioId y las URLs a tu API para guardar la relación
-      await axios.post('http://localhost:5000/api/portfolios', {
-        portfolioId, // Este sería el ID del portfolio
-        imageUrls,   // Array de URLs de las imágenes
-      });
-
+      // Llamada al servicio para subir las imágenes y obtener las URLs
+      const imageUrls = await uploadImages(images);
+      return imageUrls; // Devolver las URLs de las imágenes para ser usadas fuera del componente
     } catch (error) {
       console.error('Error al subir las imágenes:', error);
+      return [];
     }
   };
+
+  // Exponemos la función handleUpload a través de useImperativeHandle
+  useImperativeHandle(ref, () => ({
+    handleImageUpload, // Esto permitirá que otros componentes llamen a handleUpload
+  }));
 
   return (
     <div>
@@ -59,9 +46,8 @@ const ImageUploader: React.FC = () => {
           <img key={index} src={preview} alt={`preview ${index}`} style={{ width: '100px', height: '100px', margin: '5px' }} />
         ))}
       </div>
-      <button onClick={handleUpload}>Guardar Imágenes</button>
     </div>
   );
-};
+});
 
 export default ImageUploader;

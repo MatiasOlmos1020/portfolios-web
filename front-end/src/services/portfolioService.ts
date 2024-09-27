@@ -13,7 +13,7 @@ export const fetchPortfolioItems = async (): Promise<PortfolioItem[]> => {
   }
 };
 
-export const createPortfolio = async (data: { title: string; description: string; link: string }) => {
+export const createPortfolio = async (data: { title: string; description: string; link: string; imagesID: string;}) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/portfolios`, data);
     return response.data;

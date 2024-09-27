@@ -17,15 +17,14 @@ export const getPortfolios = async (req: Request, res: Response) => {
 
 // Agregar un nuevo portfolio
 export const createPortfolio = async (req: Request, res: Response) => {
-  const { title, description, link, imageUrls } = req.body;
+  const { title, description, link, imagesID } = req.body;
 
   // Validación básica
-  if (!title || !description || !link || !imageUrls ) {
+  if (!title || !description || !link || !imagesID ) {
     return res.status(400).json({ message: 'All fields are required' });
   }
-
-  const portfolio = new Portfolio({ title, description, link, imageUrls });
-
+  
+  const portfolio = new Portfolio({ title, description, link, imagesID });
   try {
     const savedPortfolio = await portfolio.save();
     res.status(201).json(savedPortfolio);
@@ -41,12 +40,12 @@ export const createPortfolio = async (req: Request, res: Response) => {
 // Actualizar un portfolio
 export const updatePortfolio = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, description, link, imageUrls } = req.body;
+  const { title, description, link, imagesID } = req.body;
 
   try {
     const updatedPortfolio = await Portfolio.findByIdAndUpdate(
       id,
-      { title, description, link, imageUrls },
+      { title, description, link, imagesID },
       { new: true } // Para devolver el documento actualizado
     );
     if (!updatedPortfolio) {
