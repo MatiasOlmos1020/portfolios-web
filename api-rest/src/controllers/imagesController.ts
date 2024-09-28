@@ -18,9 +18,7 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-
 const upload = multer({ storage });
-// Exporta el middleware para subir múltiples imágenes
 export const uploadImages = upload.array('images'); // Cambia a .single('image') si subes solo una imagen
 
 // Endpoint para manejar la subida de imágenes
@@ -47,7 +45,32 @@ export const handleUploadImages = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Unknown error occurred' });
     }
   }
+};
 
-  // Devuelve las URLs de las imágenes subidasd
-  //return res.json(URLs);
+//trae todas las imágnes
+export const getImages = async (req: Request, res: Response) => {
+  try {
+    const images = await Image.find();
+    res.json(images);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'Unknown error occurred' });
+    }
+  }
+};
+
+export const getImagesByID = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const images = await Image.findById(id);
+    res.json(images);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'Unknown error occurred' });
+    }
+  }
 };

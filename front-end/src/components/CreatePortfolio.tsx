@@ -7,11 +7,12 @@ const CreatePortfolio = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
+  const [imagesID, setImagesID] = useState<string>(''); // Aquí almacenaremos las URLs de las imágenes subidas
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
   const imageUploaderRef = useRef<any>(null); // Referencia a ImageUploader
-  const [imagesID, setImagesID] = useState<string>(''); // Aquí almacenaremos las URLs de las imágenes subidas
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,20 +20,21 @@ const CreatePortfolio = () => {
     setSuccess(false);
 
     try {
+      let uploadedImageURLs;
       // Llamamos a la función de subida de imágenes expuesta en ImageUploader
       if (imageUploaderRef.current) {
-        const uploadedImageURLs = await imageUploaderRef.current.handleImageUpload(); // Aquí llamas a la función de subida
+        uploadedImageURLs = await imageUploaderRef.current.handleImageUpload(); // Aquí llamas a la función de subida
         setImagesID(uploadedImageURLs._id); // Guardamos las URLs de las imágenes subidas
       }
 
-      // Ahora creamos el portfolio con las URLs de las imágenes incluidas
-      await createPortfolio({ title, description, link, imagesID });
-      
-      setSuccess(true);
-      setTitle('');
-      setDescription('');
-      setLink('');
-      setImagesID(''); // Limpiamos las imágenes
+      if (uploadedImageURLs && uploadedImageURLs._id) {
+        await createPortfolio({ title, description, link, imagesID: uploadedImageURLs._id,});
+        setSuccess(true);
+        setTitle('');
+        setDescription('');
+        setLink('');
+        setImagesID(''); // Limpiamos las imágenes
+      }
     } catch (error) {
       setError('Error al añadir el portfolio. Inténtalo de nuevo.');
     }

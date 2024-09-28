@@ -8,7 +8,7 @@ export interface PortfolioItem {
 
 export interface ImageItem {
     id: string;
-    url: string;
+    url: [string];
 }
   
   

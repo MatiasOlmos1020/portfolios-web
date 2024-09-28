@@ -1,5 +1,6 @@
 import axios from 'axios';
 import API_BASE_URL from '../config/config';
+import { ImageItem } from '../types';
 
 export const uploadImages = async (images: File[]) => {
   const formData = new FormData();
@@ -7,7 +8,6 @@ export const uploadImages = async (images: File[]) => {
   images.forEach(image => {
     formData.append('images', image);
   });
-
 
   try {
     // Realizamos la petición POST para subir las imágenes
@@ -17,10 +17,20 @@ export const uploadImages = async (images: File[]) => {
       },
     });
 
-    const imageUrls = response.data; // Ajusta esto según lo que devuelva tu backend
+    return response.data;
+  } catch (error) {
+    console.error('Error al subir las imágenes:', error);
+    throw error;
+  }
+};
+
+export const getImageByID = async (id : string) => {
+  
+  try {
+    // Realizamos la petición POST para subir las imágenes
+    const response = await axios.get(`${API_BASE_URL}/api/images/${id}`);
 
     return response.data;
-    //return "test";
   } catch (error) {
     console.error('Error al subir las imágenes:', error);
     throw error;

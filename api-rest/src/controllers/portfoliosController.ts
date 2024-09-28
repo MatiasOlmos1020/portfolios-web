@@ -15,10 +15,26 @@ export const getPortfolios = async (req: Request, res: Response) => {
   }
 };
 
+// Obtener portfolio por ID
+export const getPortfolioByID = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const portfolio = await Portfolio.findById(id);
+    res.json(portfolio);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'Unknown error occurred' });
+    }
+  }
+};
+
 // Agregar un nuevo portfolio
 export const createPortfolio = async (req: Request, res: Response) => {
   const { title, description, link, imagesID } = req.body;
-
+  
   // Validación básica
   if (!title || !description || !link || !imagesID ) {
     return res.status(400).json({ message: 'All fields are required' });
