@@ -3,7 +3,7 @@ import { fetchPortfolioItems } from '../services/portfolioService';
 import { PortfolioItem } from '../types'; // Importa la interfaz
 
 const PortfolioGrid: React.FC = () => {
-	const [items, setItems] = useState<PortfolioItem[]>([]); // Especifica el tipo
+	const [items, setItems] = useState<any[]>([]); // Especifica el tipo
 
 	useEffect(() => {
 		const loadPortfolioItems = async () => {
@@ -23,8 +23,8 @@ const PortfolioGrid: React.FC = () => {
 			<div className="row centered mt mb">
 				<h1>My Portfolio</h1>
 				{items.map(item => (
-					<div key={item.id} className="col-lg-4 col-md-4 col-sm-4 gallery">
-						<a href="work.html"><img src={`${process.env.PUBLIC_URL}/template/assets/img/portfolio/folio0${item.id}.png`} className="img-responsive"></img></a>
+					<div key={item.imageUrls.URLs[0]} className="col-lg-4 col-md-4 col-sm-4 gallery">
+						<a href="work.html"><img src={`${process.env.REACT_APP_API_BASE_URL}${item.imageUrls.URLs[0]}`} className="img-responsive"></img></a>
 					</div>
 				))}
 			</div>

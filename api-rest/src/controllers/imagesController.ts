@@ -51,6 +51,7 @@ export const handleUploadImages = async (req: Request, res: Response) => {
 export const getImages = async (req: Request, res: Response) => {
   try {
     const images = await Image.find();
+    console.log(process.env.FRONTEND_URL);
     res.json(images);
   } catch (error) {
     if (error instanceof Error) {

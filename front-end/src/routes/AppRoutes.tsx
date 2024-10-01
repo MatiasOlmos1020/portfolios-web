@@ -4,6 +4,8 @@ import Home from '../components/Home';
 import About from '../components/About';
 import MainBanner from '../components/MainBanner';
 import CreatePortfolio from '../components/CreatePortfolio';
+import ListPortfolios from '../components/ListPortfolios';
+
 
 const AppRoutes: React.FC = () => {
   return (
@@ -12,6 +14,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/about" element={<About />} />
       <Route path="/mainbanner" element={<MainBanner />} />
       <Route path="/createPortfolio" element={<CreatePortfolio />} />
+      <Route path="/listPortfolios" element={<ListPortfolios />} />
     </Routes>
   );
 }

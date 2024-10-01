@@ -4,14 +4,20 @@ import cors from 'cors';
 import portfolioRoutes from './routes/portfolioRoutes';
 import imageRoutes from './routes/imageRoutes'
 import connectDB from './db';
+import dotenv from 'dotenv';
+import path from 'path';
 
+dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.use(express.json());
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+// Configura la carpeta de 'uploads' como carpeta estática
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Coneccion a la DB
 connectDB();

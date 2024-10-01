@@ -3,12 +3,12 @@ export interface PortfolioItem {
     title: string;
     description: string;
     link: string;
-    imageurl: string;
+    imagesID: string;
 }
 
 export interface ImageItem {
     id: string;
-    url: [string];
+    URLs: [string];
 }
   
   
