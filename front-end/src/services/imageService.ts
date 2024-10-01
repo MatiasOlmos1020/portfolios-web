@@ -1,5 +1,4 @@
 import axios from 'axios';
-import API_BASE_URL from '../config/config';
 import { ImageItem } from '../types';
 
 export const uploadImages = async (images: File[]) => {
@@ -11,7 +10,7 @@ export const uploadImages = async (images: File[]) => {
 
   try {
     // Realizamos la petición POST para subir las imágenes
-    const response = await axios.post(`${API_BASE_URL}/api/images/upload`, formData, {
+    const response = await axios.post(`${process.env.RREACT_APP_API_BASE_URL}/api/images/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -28,7 +27,7 @@ export const getImageByID = async (id : string) => {
   
   try {
     // Realizamos la petición POST para subir las imágenes
-    const response = await axios.get(`${API_BASE_URL}/api/images/${id}`);
+    const response = await axios.get(`${process.env.RREACT_APP_API_BASE_URL}/api/images/${id}`);
 
     return response.data;
   } catch (error) {

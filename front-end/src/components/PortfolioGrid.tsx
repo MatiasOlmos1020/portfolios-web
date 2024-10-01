@@ -24,7 +24,7 @@ const PortfolioGrid: React.FC = () => {
 				<h1>My Portfolio</h1>
 				{items.map(item => (
 					<div key={item.id} className="col-lg-4 col-md-4 col-sm-4 gallery">
-						<a href="work.html"><img src={`${process.env.PUBLIC_URL}/template/assets/img/portfolio/folio0${item.id}.png`} className="img-responsive"></img></a>
+						<a href="work.html"><img src={`${process.env.REACT_APP_FRONTEND_URL}/template/assets/img/portfolio/folio0${item.id}.png`} className="img-responsive"></img></a>
 					</div>
 				))}
 			</div>

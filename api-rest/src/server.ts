@@ -4,9 +4,11 @@ import cors from 'cors';
 import portfolioRoutes from './routes/portfolioRoutes';
 import imageRoutes from './routes/imageRoutes'
 import connectDB from './db';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.use(express.json());
 
 // Middleware
