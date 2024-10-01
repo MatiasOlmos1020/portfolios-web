@@ -5,7 +5,10 @@ import portfolioRoutes from './routes/portfolioRoutes';
 import imageRoutes from './routes/imageRoutes'
 import connectDB from './db';
 import dotenv from 'dotenv';
+<<<<<<< HEAD
 import path from 'path';
+=======
+>>>>>>> 1c0c06b9c65b30931ddceed5161654579258f60e
 
 dotenv.config();
 const app = express();
