@@ -3,7 +3,7 @@ import { PortfolioItem } from '../types';
 import { ImageItem } from '../types';
 
 // Función para obtener los items del portfolio
-export const fetchPortfolioItems = async (): Promise<PortfolioItem[]> => {
+export const getAllPortfolios = async (): Promise<PortfolioItem[]> => {
   try {
     const response = await axios.get<PortfolioItem[]>(`${process.env.REACT_APP_API_BASE_URL}/api/portfolios`);
     const portfolioItems = response.data;
@@ -36,3 +36,15 @@ export const createPortfolio = async (data: { title: string; description: string
     throw error;
   }
 };
+
+export const getPortfolioByID = async (id : string) =>{
+  try {
+    // Realizamos la petición POST para subir las imágenes
+    const response = await axios.get<PortfolioItem>(`${process.env.REACT_APP_API_BASE_URL}/api/portfolios/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.error('Error al traer los portfolios:', error);
+    throw error;
+  }
+}

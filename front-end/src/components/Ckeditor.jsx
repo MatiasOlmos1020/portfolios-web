@@ -63,7 +63,7 @@ import 'ckeditor5/ckeditor5.css';
 
 import '../ckeditor.css';
 
-export default function CustomCkeditor({ onChange }) {
+export default function CustomCkeditor({ onChange, initialData }) {
 	const editorContainerRef = useRef(null);
 	const editorRef = useRef(null);
 	const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -71,8 +71,15 @@ export default function CustomCkeditor({ onChange }) {
 	useEffect(() => {
 		setIsLayoutReady(true);
 
+		if (editorRef.current) {
+			const editorInstance = editorRef.current.editor;
+			console.log(editorInstance);
+			if (editorInstance) {
+			  editorInstance.setData(initialData); // Aquí forzamos la carga de datos iniciales
+			}
+		}
 		return () => setIsLayoutReady(false);
-	}, []);
+	}, [initialData]);
 
 	const editorConfig = {
 		toolbar: {
@@ -237,8 +244,7 @@ export default function CustomCkeditor({ onChange }) {
 				'resizeImage'
 			]
 		},
-		initialData:
-			'',
+		initialData,
 		language: 'es',
 		link: {
 			addTargetToExternalLinks: true,
@@ -272,7 +278,14 @@ export default function CustomCkeditor({ onChange }) {
 			<div className="main-container">
 				<div className="editor-container editor-container_classic-editor" ref={editorContainerRef}>
 					<div className="editor-container__editor">
-						<div ref={editorRef}>{isLayoutReady && <CKEditor editor={ClassicEditor} config={editorConfig} onChange={onChange} />}</div>
+						{isLayoutReady && (
+							<CKEditor
+								editor={ClassicEditor}
+								config={editorConfig}
+								onChange={onChange}
+								ref={editorRef} // Guardamos la referencia del editor
+							/>
+						)}
 					</div>
 				</div>
 			</div>

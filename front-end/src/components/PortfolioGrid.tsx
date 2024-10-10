@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPortfolioItems } from '../services/portfolioService';
+import { getAllPortfolios } from '../services/portfolioService';
 import { PortfolioItem } from '../types'; // Importa la interfaz
 
 const PortfolioGrid: React.FC = () => {
@@ -8,7 +8,7 @@ const PortfolioGrid: React.FC = () => {
 	useEffect(() => {
 		const loadPortfolioItems = async () => {
 			try {
-				const data = await fetchPortfolioItems();
+				const data = await getAllPortfolios();
 				setItems(data);
 			} catch (error) {
 				console.error('Failed to load portfolio items:', error);

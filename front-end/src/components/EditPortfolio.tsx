@@ -1,18 +1,36 @@
-import React, { useState, useRef } from 'react';
-import { createPortfolio } from '../services/portfolioService';
+import React, { useState, useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { createPortfolio, getPortfolioByID } from '../services/portfolioService';
 import ImageUploader from './ImagesUploader';
 import CustomCkeditor from './Ckeditor';
 
-const CreatePortfolio = () => {
+const EditPortfolio = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [imagesID, setImagesID] = useState<string>(''); // Aquí almacenaremos las URLs de las imágenes subidas
-
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
-
   const imageUploaderRef = useRef<any>(null); // Referencia a ImageUploader
+  const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    if (id) {
+      // Cargar el portfolio usando el ID
+      preparePortfolio(id);
+    }
+  }, [id]);
+
+  const preparePortfolio = async (id: string) => {
+    try {
+      const portfolioData = await getPortfolioByID(id);
+      setTitle(portfolioData.title);
+      setLink(portfolioData.link);
+      setDescription(portfolioData.description); // Set description
+    } catch {
+      console.log("Error al cargar el portfolio");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +46,7 @@ const CreatePortfolio = () => {
       }
 
       if (uploadedImageURLs && uploadedImageURLs._id) {
-        await createPortfolio({ title, description, link, imagesID: uploadedImageURLs._id,});
+        await createPortfolio({ title, description, link, imagesID: uploadedImageURLs._id });
         setSuccess(true);
         setTitle('');
         setDescription('');
@@ -42,7 +60,7 @@ const CreatePortfolio = () => {
 
   return (
     <div>
-      <h2>Añadir Nuevo Portfolio</h2>
+      <h2>Editar Portfolio</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>Portfolio añadido con éxito</p>}
 
@@ -61,7 +79,7 @@ const CreatePortfolio = () => {
         <div>
           <label htmlFor="description">Descripción:</label>
           <CustomCkeditor
-            initialData={''}
+            initialData={description} // Pass initial description here
             onChange={(event: any, editor: any) => {
               const data = editor.getData();
               setDescription(data);
@@ -82,14 +100,13 @@ const CreatePortfolio = () => {
 
         <div>
           <label htmlFor="images">Imagenes:</label>
-          {/* Aquí usamos ref para exponer la función de subida de imágenes */}
           <ImageUploader ref={imageUploaderRef} />
         </div>
 
-        <button type="submit">Añadir Portfolio</button>
+        <button type="submit">Guardar Portfolio</button>
       </form>
     </div>
   );
 };
 
-export default CreatePortfolio;
+export default EditPortfolio;
