@@ -1,3 +1,7 @@
+# Description:
+
+This is my first Full Stack proyrct, I was trying to re-learn how to code using only ChatGPT help, it was fun and it is unfinished, if you want, you can contact me and give me your feedback, I will try to finish this proyect eventualy, but i'm no longer working on it
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
