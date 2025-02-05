@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import portfolioRoutes from './routes/portfolioRoutes';
 import imageRoutes from './routes/imageRoutes'
+import mpRoutes from './routes/mpRoutes';
 import connectDB from './db';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -25,6 +26,7 @@ connectDB();
 // Usar rutas
 app.use('/api/portfolios', portfolioRoutes);
 app.use('/api/images', imageRoutes);
+app.use('/api/mp', mpRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
