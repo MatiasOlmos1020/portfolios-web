@@ -1,4 +1,4 @@
-// src/services/mercadoPagoService.ts
+import axios from "axios";
 
 declare global {
   interface Window {
@@ -20,9 +20,31 @@ export const initializeMercadoPago = () => {
   );
 };
 
+export const createPreference = async () => {
+  const mp = initializeMercadoPago();
+  if (!mp) return;
+
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_BASE_URL}/api/mp/create-preference`,
+      //preferenceData,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    console.log("Preferencia de pago creada:", data.preferenceId);
+    return data.preferenceId;
+  } catch (error) {
+    console.error(
+      "Error al crear la preferencia de pago:",
+      (error as any).response?.data || (error as any).message
+    );
+  }
+}
+
 export const createPaymentBrick = async (
   containerId: string,
-  preferenceId: string,
+  //preferenceId: string,
   amount: number,
   payer: object
 ) => {
@@ -30,7 +52,8 @@ export const createPaymentBrick = async (
   if (!mp) return;
 
   const bricksBuilder = mp.bricks();
-
+  const preferenceId = await createPreference();
+  console.log(preferenceId);
   try {
     await bricksBuilder.create("payment", containerId, {
       initialization: {
@@ -56,22 +79,28 @@ export const createPaymentBrick = async (
         },
       },
       callbacks: {
-        onReady: () => console.log("Payment Brick listo."),
+        onReady: () => {
+            console.log("Payment Brick listo.")
+        },
         onSubmit: async ({ formData }: { formData: any }) => {
           try {
-            const response = await fetch("/process_payment", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(formData),
-            });
-            const result = await response.json();
-            console.log("Pago procesado:", result);
+            console.log(formData)
+            const { data } = await axios.post(
+              `${process.env.REACT_APP_API_BASE_URL}/api/mp/create-payment`,
+              formData,
+              {
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+            console.log("Pago procesado:", data);
           } catch (error) {
-            console.error("Error en el pago:", error);
+            console.error(
+              "Error en el pago:",
+              (error as any).response?.data || (error as any).message
+            );
           }
         },
-        onError: (error: any) =>
-          console.error("Error en Payment Brick:", error),
+        onError: (error: any) => console.error("Error en Payment Brick:", error),
       },
     });
   } catch (error) {
