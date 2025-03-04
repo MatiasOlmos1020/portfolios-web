@@ -9,11 +9,11 @@ const Home: React.FC = () => {
       <MainBanner />
       <PortfolioGrid />
       <MercadoPago
-        amount={10000}
+        amount={300}
         payer={{
-          firstName: "Juan",
-          lastName: "Pérez",
-          email: "juan@example.com",
+          firstName: "Matias",
+          lastName: "Olmos",
+          email: "matiasolmosrivero@gmail.com",
         }}
       />
     </main>

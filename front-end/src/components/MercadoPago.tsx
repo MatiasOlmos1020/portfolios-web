@@ -1,9 +1,7 @@
-// src/components/MercadoPago.tsx
 import React, { useEffect, useRef } from "react";
 import { createPaymentBrick } from "../services/mercadoPagoService";
 
 interface MercadoPagoProps {
-  //preferenceId: string;
   amount: number;
   payer: object;
 }

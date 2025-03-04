@@ -21,18 +21,13 @@ export const initializeMercadoPago = () => {
 };
 
 export const createPreference = async () => {
-  const mp = initializeMercadoPago();
-  if (!mp) return;
-
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_API_BASE_URL}/api/mp/create-preference`,
-      //preferenceData,
       {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log("Preferencia de pago creada:", data.preferenceId);
     return data.preferenceId;
   } catch (error) {
     console.error(
@@ -44,7 +39,6 @@ export const createPreference = async () => {
 
 export const createPaymentBrick = async (
   containerId: string,
-  //preferenceId: string,
   amount: number,
   payer: object
 ) => {
@@ -53,7 +47,6 @@ export const createPaymentBrick = async (
 
   const bricksBuilder = mp.bricks();
   const preferenceId = await createPreference();
-  console.log(preferenceId);
   try {
     await bricksBuilder.create("payment", containerId, {
       initialization: {

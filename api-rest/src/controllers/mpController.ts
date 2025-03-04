@@ -18,6 +18,7 @@ const getMercadoPagoClient = () => {
 // Crear un pago
 export const createPayment = async (req: Request, res: Response) => {
   try {
+    console.log("<--- request body --->", req.body);
     const { payment, preference } = await getMercadoPagoClient();
     const response = await payment.create({ body: req.body });
     console.log("<--- Response from MercadoPago --->", response);
@@ -38,7 +39,7 @@ export const createPreference = async (req: Request, res: Response) => {
           title: "Producto de prueba",
           quantity: 1,
           currency_id: "ARS",
-          unit_price: 10000,
+          unit_price: 300,
         },
       ],
     };
