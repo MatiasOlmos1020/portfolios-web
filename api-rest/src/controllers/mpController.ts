@@ -1,6 +1,41 @@
 import { Request, Response } from "express";
 import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
 
+const createCardToken = async () => {
+  const url = "https://api.mercadopago.com/v1/card_tokens";
+  const headers = {
+    "Authorization": `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN }`,
+    "Content-Type": "application/json",
+  };
+  const body = JSON.stringify({
+    card_number: "4517660175667491",
+    expiration_month: 6,
+    expiration_year: 2028,
+    security_code: "",
+    cardholder: {
+      name: "Matias Olmos",
+    },
+  });
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    console.log("✅ Card Token generado:", data);
+    return data;
+  } catch (error) {
+    console.error("❌ Error al generar el token:", error);
+  }
+};
+
 // Función para generar el cliente de Mercado Pago
 const getMercadoPagoClient = () => {
   const client = new MercadoPagoConfig({
@@ -18,7 +53,10 @@ const getMercadoPagoClient = () => {
 // Crear un pago
 export const createPayment = async (req: Request, res: Response) => {
   try {
+    const cardTokenResponse = await createCardToken(); // Genera el token
+    req.body.token = cardTokenResponse.id;
     console.log("<--- request body --->", req.body);
+    
     const { payment, preference } = await getMercadoPagoClient();
     const response = await payment.create({ body: req.body });
     console.log("<--- Response from MercadoPago --->", response);

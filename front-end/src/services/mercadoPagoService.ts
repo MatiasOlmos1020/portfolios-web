@@ -3,6 +3,7 @@ import axios from "axios";
 declare global {
   interface Window {
     MercadoPago: any;
+    deviceId?: string;
   }
 }
 
@@ -53,6 +54,7 @@ export const createPaymentBrick = async (
         amount,
         preferenceId,
         payer,
+        capture: true,
       },
       customization: {
         visual: {
@@ -68,21 +70,24 @@ export const createPaymentBrick = async (
           atm: "all",
           onboarding_credits: "all",
           wallet_purchase: "all",
-          maxInstallments: 1,
+          maxInstallments: 1
         },
       },
       callbacks: {
         onReady: () => {
-            console.log("Payment Brick listo.")
+          console.log("Payment Brick listo.")
         },
         onSubmit: async ({ formData }: { formData: any }) => {
           try {
-            console.log(formData)
+            console.log("formdata:", formData);
             const { data } = await axios.post(
               `${process.env.REACT_APP_API_BASE_URL}/api/mp/create-payment`,
               formData,
               {
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                  "Content-Type": "application/json",
+                  "X-meli-session-id": window.deviceId,
+                 },
               }
             );
             console.log("Pago procesado:", data);
